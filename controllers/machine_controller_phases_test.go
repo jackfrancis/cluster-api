@@ -844,7 +844,7 @@ func TestReconcileBootstrap(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
+		t.Run(tc.name, func(t *testing.T) { // repro'd once here
 			g := NewWithT(t)
 
 			g.Expect(clusterv1.AddToScheme(scheme.Scheme)).To(Succeed())
