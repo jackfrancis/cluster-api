@@ -537,7 +537,7 @@ func TestMachineSetToMachines(t *testing.T) {
 
 	for _, tc := range testsCases {
 		t.Run(tc.name, func(t *testing.T) {
-			gs := NewWithT(t)
+			gs := NewWithT(t) // repro'd once here
 
 			got := r.MachineToMachineSets(tc.mapObject)
 			gs.Expect(got).To(Equal(tc.expected))
