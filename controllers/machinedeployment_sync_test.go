@@ -363,7 +363,7 @@ func TestScaleMachineSet(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			g := NewWithT(t)
 
-			g.Expect(clusterv1.AddToScheme(scheme.Scheme)).To(Succeed())
+			g.Expect(clusterv1.AddToScheme(scheme.Scheme)).To(Succeed()) // repro'd once here
 
 			resources := []client.Object{
 				tc.machineDeployment,
