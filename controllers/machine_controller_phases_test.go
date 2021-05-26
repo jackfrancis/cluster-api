@@ -844,10 +844,10 @@ func TestReconcileBootstrap(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) { // repro'd once here
+		t.Run(tc.name, func(t *testing.T) {
 			g := NewWithT(t)
 
-			g.Expect(clusterv1.AddToScheme(scheme.Scheme)).To(Succeed())
+			g.Expect(clusterv1.AddToScheme(scheme.Scheme)).To(Succeed()) // repro'd twice here
 
 			if tc.machine == nil {
 				tc.machine = defaultMachine.DeepCopy()
