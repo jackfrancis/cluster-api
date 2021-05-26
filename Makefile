@@ -122,7 +122,7 @@ ARTIFACTS ?= ${ROOT_DIR}/_artifacts
 
 .PHONY: test
 test: ## Run tests.
-	source ./scripts/fetch_ext_bins.sh; fetch_tools; setup_envs; go test ./... $(TEST_ARGS)
+	source ./scripts/fetch_ext_bins.sh; fetch_tools; setup_envs; go clean -testcache; go test ./... $(TEST_ARGS)
 
 .PHONY: test-verbose
 test-verbose: ## Run tests with verbose settings.
