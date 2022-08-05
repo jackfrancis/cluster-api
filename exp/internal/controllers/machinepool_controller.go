@@ -113,6 +113,7 @@ func (r *MachinePoolReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		log.Error(err, "Error reading the object - requeue the request.")
 		return ctrl.Result{}, err
 	}
+	log.Info("MachinePool after r.Client.Get", "mp", mp)
 
 	cluster, err := util.GetClusterByName(ctx, r.Client, mp.ObjectMeta.Namespace, mp.Spec.ClusterName)
 	if err != nil {

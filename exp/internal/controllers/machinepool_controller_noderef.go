@@ -48,6 +48,7 @@ type getNodeReferencesResult struct {
 
 func (r *MachinePoolReconciler) reconcileNodeRefs(ctx context.Context, cluster *clusterv1.Cluster, mp *expv1.MachinePool) (ctrl.Result, error) {
 	log := ctrl.LoggerFrom(ctx, "cluster", cluster.Name)
+	log.Info("MachinePool inside reconcileNodeRefs", "mp", mp)
 	// Check that the MachinePool hasn't been deleted or in the process.
 	if !mp.DeletionTimestamp.IsZero() {
 		return ctrl.Result{}, nil
@@ -134,6 +135,7 @@ func (r *MachinePoolReconciler) reconcileNodeRefs(ctx context.Context, cluster *
 
 	// At this point, the required number of replicas are ready
 	conditions.MarkTrue(mp, expv1.ReplicasReadyCondition)
+	log.Info("MachinePool after successful reconcileNodeRefs", "mp", mp)
 	return ctrl.Result{}, nil
 }
 
@@ -186,6 +188,7 @@ func (r *MachinePoolReconciler) getNodeReferences(ctx context.Context, c client.
 		}
 
 		for _, node := range nodeList.Items {
+			log.Info("Found ProviderID from node", "providerID", node.Spec.ProviderID)
 			nodeProviderID, err := noderefutil.NewProviderID(node.Spec.ProviderID)
 			if err != nil {
 				log.V(2).Info("Failed to parse ProviderID, skipping", "err", err, "providerID", node.Spec.ProviderID)
@@ -202,6 +205,7 @@ func (r *MachinePoolReconciler) getNodeReferences(ctx context.Context, c client.
 
 	var nodeRefs []corev1.ObjectReference
 	for _, providerID := range providerIDList {
+		log.Info("Found ProviderID from MachinePool", "providerID", providerID)
 		pid, err := noderefutil.NewProviderID(providerID)
 		if err != nil {
 			log.V(2).Info("Failed to parse ProviderID, skipping", "err", err, "providerID", providerID)

@@ -167,6 +167,7 @@ func (r *MachinePoolReconciler) reconcileExternal(ctx context.Context, cluster *
 // reconcileBootstrap reconciles the Spec.Bootstrap.ConfigRef object on a MachinePool.
 func (r *MachinePoolReconciler) reconcileBootstrap(ctx context.Context, cluster *clusterv1.Cluster, m *expv1.MachinePool) (ctrl.Result, error) {
 	log := ctrl.LoggerFrom(ctx, "cluster", cluster.Name)
+	log.Info("MachinePool inside reconcileBootstrap", "mp", m)
 
 	// Call generic external reconciler if we have an external reference.
 	var bootstrapConfig *unstructured.Unstructured
@@ -221,6 +222,7 @@ func (r *MachinePoolReconciler) reconcileBootstrap(ctx context.Context, cluster 
 
 	m.Spec.Template.Spec.Bootstrap.DataSecretName = pointer.StringPtr(secretName)
 	m.Status.BootstrapReady = true
+	log.Info("MachinePool after succesful reconcileBootstrap", "mp", m)
 	return ctrl.Result{}, nil
 }
 
@@ -228,6 +230,7 @@ func (r *MachinePoolReconciler) reconcileBootstrap(ctx context.Context, cluster 
 func (r *MachinePoolReconciler) reconcileInfrastructure(ctx context.Context, cluster *clusterv1.Cluster, mp *expv1.MachinePool) (ctrl.Result, error) {
 	log := ctrl.LoggerFrom(ctx, "cluster", cluster.Name)
 
+	log.Info("MachinePool inside reconcileInfrastructure", "mp", mp)
 	// Call generic external reconciler.
 	infraReconcileResult, err := r.reconcileExternal(ctx, cluster, mp, &mp.Spec.Template.Spec.InfrastructureRef)
 	if err != nil {
@@ -298,5 +301,6 @@ func (r *MachinePoolReconciler) reconcileInfrastructure(ctx context.Context, clu
 		mp.Status.UnavailableReplicas = mp.Status.Replicas
 	}
 
+	log.Info("MachinePool after successful reconcileInfrastructure", "mp", mp)
 	return ctrl.Result{}, nil
 }
