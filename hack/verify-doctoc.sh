@@ -32,6 +32,7 @@ doctoc_files="README.md \
               docs/staging-use-cases.md \
               docs/proposals/20181121-machine-api.md \
               docs/proposals/20190610-machine-states-preboot-bootstrapping.md \
+              docs/proposals/20230407-managed-k8s-capi-contract-changes.md \
               docs/proposals/YYYYMMDD-template.md"
 
 function check_doctoc(){
